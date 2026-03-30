@@ -1,27 +1,10 @@
-# Path Manager Professional
+# PathManager Professional Suite
 
-**Path Manager Professional** is a high-performance Windows desktop application designed to traverse deep directory structures and identify files or folders whose paths exceed a specified length threshold. It is extremely useful for migrating data to SharePoint, OneDrive, or new NAS systems where Windows' historical `MAX_PATH` limitation (260 characters) often causes unpredictable synchronization failures.
+## Descrizione
+PathManager Professional è lo standard di efficienza industriale per l'identificazione, l'analisi e la risoluzione automatizzata massiva per la violazione dei limiti legacy dei path di Windows (MAX_PATH = 260 caratteri). Studiata appositamente per IT Manager e Sysadmin responsabili della migrazione dati.
 
-## 🚀 Features
-- **Unstoppable Core Engine**: Interacts directly with Win32 `kernel32.dll` APIs (`WIN32_FIND_DATAW`), effortlessly bypassing the standard .NET 260-character limitation and natively skipping `Access Denied` folders without crashing.
-- **Multilingual Support**: Fully localized in English and Italian. Switch instantly via the UI toggle button.
-- **Advanced Export System**: Generates reports in three formats:
-  - `TXT`: Standard log summary.
-  - `CSV`: Spreadsheets compatible layout.
-  - `HTML`: A beautiful, responsive, and interactive HTML report with built-in Javascript sorting and search filtering capabilities.
-- **Modern UI**: A sleek, user-friendly graphical interface with async progress reporting that never freezes the main thread.
-- **Standalone**: Zero dependencies required.
-
-## 🛠️ How to Build
-This project requires **NO** third-party dependencies, package managers, or installations (Visual Studio is completely optional).
-
-Simply open the root folder and double-click the `build.bat` script on any Windows machine to instantly compile the modular source code into a self-contained executable: `PathManagerProfessional.exe`.
-
-## 📂 Project Structure
-- `src/Core/`: Native scanning engine and data models.
-- `src/UI/`: WinForms interfaces and design logic.
-- `src/Exporters/`: Modular system for exporting `ScanReport` objects.
-- `src/Localization/`: Static lightweight dictionary engine for `i18n` support.
-
-## 📜 License
-MIT License.
+## Feature Architetturali (Release 1.0.0)
+- **Architettura Clean "Zero I/O Core":** Separazione completa tra la logica di calcolo dei percorsi stringati ("Domain" e "Engine") ed il File System sottostante assecondando una strategia agnostica per il testing intensivo.
+- **Bypass del limite `MAX_PATH`:** Piena integrazione asincrona e nativa via P/Invoke (`kernel32.dll` - `MoveFileW`), mascherando dinamicamente path UNC e locali col flag `\\?\`. Nessuna eccezione causata dalla limitazione legacy!
+- **Interfaccia Utente Asincrona con Dry-Run (Preview):** Motore di esecuzione puramente non bloccante. Generazione di "Transaction Plan" pre-calcolati esaminabili visivamente prima del "commit", applicando appieno i pattern *TDD & Clean Code*.
+- **Sistema di Audit & Reporting (CSV):** Tracciabilità assoluta per sysadmins tramite log CSV post-transazionali per verificare l'esito reale (Successo, Fallito) e l'originale mappatura per ogni file.
