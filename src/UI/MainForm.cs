@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using PathManagerProfessional.Core.Application;
 using PathManagerProfessional.Core.Domain;
 using PathManagerProfessional.Core.Engine;
+using PathManagerProfessional.Core.Ports;
 using PathManagerProfessional.Infrastructure;
 
 namespace PathManager.UI
@@ -30,11 +31,14 @@ namespace PathManager.UI
             SetupDependencies();
         }
 
+        private IAuditReporter _reporter;
+
         private void SetupDependencies()
         {
             var engine = new PathResolutionEngine();
             var adapter = new Win32FileSystemAdapter();
             _orchestrator = new TransactionOrchestrator(engine, adapter);
+            _reporter = new CsvAuditReporter();
         }
 
         private void InitializeComponent()
@@ -198,7 +202,15 @@ namespace PathManager.UI
                 });
 
                 await _orchestrator.ExecutePlanAsync(_currentPlan, progress);
-                MessageBox.Show("Execution completed.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                try
+                {
+                    _reporter.GenerateReport(_currentPlan, txtRootPath.Text);
+                    MessageBox.Show("Execution completed. Audit Log saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception reportEx)
+                {
+                    MessageBox.Show(string.Format("Execution completed, but failed to save Audit Log: {0}", reportEx.Message), "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
             catch (Exception ex)
             {
