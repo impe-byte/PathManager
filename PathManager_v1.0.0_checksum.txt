@@ -1,0 +1,8 @@
+﻿
+
+Algorithm : SHA256
+Hash      : 58FDEF1A8381F3DA1B476B6D9F45FF7A66CEB59D3BEE010808C7653535C15E07
+Path      : C:\DEV\PathManager\PathManager_v1.0.0.zip
+
+
+
