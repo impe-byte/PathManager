@@ -16,7 +16,7 @@ if not exist %COMPILER% (
 )
 
 echo Compiling source files...
-%COMPILER% /nologo /target:winexe /out:PathManagerProfessional.exe src\Program.cs src\Core\Models.cs src\Core\PathScanner.cs src\Exporters\IReportExporter.cs src\Exporters\TxtExporter.cs src\Exporters\CsvExporter.cs src\Exporters\HtmlExporter.cs src\Localization\Strings.cs src\UI\MainForm.cs
+%COMPILER% /nologo /target:winexe /out:PathManagerProfessional.exe src\Program.cs src\Core\Domain\*.cs src\Core\Engine\*.cs src\Core\Application\*.cs src\Core\Ports\*.cs src\Infrastructure\*.cs src\UI\MainForm.cs
 
 if %errorlevel% neq 0 (
     echo.
